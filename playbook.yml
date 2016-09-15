@@ -1,0 +1,30 @@
+---
+
+- hosts: tomcat
+  become: true
+
+  become_user: root
+#  vars:
+#   - ctr: 1
+
+  tasks:
+#   - name: yum update
+#     yum: name=* state=latest
+     
+   - name: install docker-py
+     pip: name=docker-py version=1.7.0
+     
+#   - name: increment var
+#     set_fact: ctr={{ ctr | int + 1 }}
+     
+   - name: build Dockerfile
+     shell: docker build -t tomascatalina .
+
+   - name: tomcat start
+     docker_container:
+      name: tomcatalina
+      image: tomascatalina
+      state: started
+      restart: yes
+      ports:
+       - "80:8080"

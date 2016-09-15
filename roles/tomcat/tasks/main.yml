@@ -1,0 +1,11 @@
+---
+- name: build Dockerfile
+  shell: docker build -t tomascatalina .
+
+- name: start tomcat
+  docker_container:
+    name: tomcatalina
+    image: tomascatalina 
+    state: started
+    ports:
+      - "80:8080"
